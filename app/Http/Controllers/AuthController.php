@@ -32,9 +32,13 @@ class AuthController extends Controller
 
     public function register(Request $request) {
         $this->validate($request, [
-            'username' => 'required|string|unique:user,username',
+            'username' => [
+                'required',
+                'between:[4,9]',
+                'regex:/^[A-Za-z0-9]+$/'
+            ],
             'password' => 'required|string',
-            'email'    => 'required|string|unique:user,email',
+            'email'    => 'required|string|email|unique:user,email',
         ]);
         $user = new User();
         $user->username = $request->input('username');
@@ -43,7 +47,11 @@ class AuthController extends Controller
         $user->email = $request->input('email');
         $user->school = $request->input('school');
         $user->department_id = $request->input('department_id');
+        $user->nickname = $request->input('nickname');
+        $user->realname = $request->input('realname');
+        $user->motto = $request->input('motto');
+        $user->grade_id = $request->input('grade_id');
+        $user->gender = $request->input('gender');
+        $user->save();
     }
-
-    //
 }

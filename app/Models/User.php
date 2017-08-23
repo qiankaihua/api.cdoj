@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Auth\Authenticatable;
@@ -21,7 +21,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
 
     public function setPasswordAttribute($pwd) {
-        $this->attributes['password'] = bcrypt($pwd);
+        $this->attributes['password'] = app('hash')->make($pwd);
     }
     public function getIsAdminAttribute() {
         return $this->id === 1;
