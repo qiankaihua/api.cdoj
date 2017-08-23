@@ -27,7 +27,29 @@ class AuthController extends Controller
     }
 
     public function login(Request $request) {
-
+        $this->validate($request, [
+            'username' => 'required|string',
+            'password' => 'required|string',
+        ]);
+        $user = User::where('username', $request->input('username'))->first();
+        if (!$user) {
+            abort(403);
+        } elseif (!app('hash')->check($request->input('password'), $user->password)) {
+            abort(403);
+        } else {
+            $apiToken = new ApiToken();
+            $apiToken->token = Uuid::uuid4()->toString();
+            $apiToken->ip = $request->server('REMOTE_ADDR', null);
+            if ($request->input('remember', false)) {
+                $apiToken->expired_at = null;
+            } else {
+                $apiToken->expired_at = Carbon::now()->addMinutes(30);
+            }
+            $user->tokens()->save($apiToken);
+            return response([
+                'token' => $apiToken->token,
+            ]);
+        }
     }
 
     public function register(Request $request) {
