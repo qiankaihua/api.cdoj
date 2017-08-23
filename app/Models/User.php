@@ -31,6 +31,9 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     public function records() {
         return $this->hasMany('App\Models\Record', 'user_id', 'id');
     }
+    public function tokens() {
+        return $this->hasMany('App\Models\ApiToken', 'user_id', 'id');
+    }
 
     public function role() {
         return $this->belongsTo('App\Models\Role', 'role_id', 'id');

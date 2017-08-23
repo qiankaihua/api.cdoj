@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
-use App\BaseModel;
+use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use Ramsey\Uuid\Uuid;
 
-class ApiToken extends BaseModel
+class ApiToken extends Model
 {
     protected $table = 'api_token';
     protected $dates = ['created_at','updated_at','expired_at'];
