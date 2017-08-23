@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\ApiToken;
 use Ramsey\Uuid\Uuid;
@@ -24,7 +25,8 @@ class AuthController extends Controller
 
     public function test() {
         $user = User::where('id',3)->first();
-        $ans = [
+        
+        $response = [
             'id' => $user->id,
             'created_at' => $user->created_at->timestamp,
             'updated_at' => $user->updated_at->timestamp,
@@ -48,25 +50,40 @@ class AuthController extends Controller
                 'id' => $user->grade->id,
                 'name' => $user->grade->name,
             ],
-            'gender' => $user->gender,
+            'gender' => $user->gender ? true : false,
         ];
-        return response([
-            'ans' =>$ans,
-        ]);
+        return response($response);
     }
 
     public function get(Request $request) {
-        $user = Auth::user();
-
-        if(!$user) {
-            abort(401);
-        }
-
-        return getJSON($user, [
-            'id', 'created_at' => 'created_at.timestamp', 'updated_at' => 'updated_at.timestamp',
-            'username', 'email', 'realname', 'gender', 'school',
-
-        ]);
+        $user = \Auth::user();
+        $response = [
+            'id' => $user->id,
+            'created_at' => $user->created_at->timestamp,
+            'updated_at' => $user->updated_at->timestamp,
+            'role_id' => $user->role_id,
+            'role' => [
+                'id' => $user->role->id,
+                'name' => $user->role->name,
+                ],
+            'email' => $user->email,
+            'school' => $user->school,
+            'department_id' => $user->department_id,
+            'department' => [
+                'id' => $user->department->department_id,
+                'name' => $user->department->name,
+            ],
+            'nickname' => $user->nickname,
+            'realname' => $user->realname,
+            'motto' => $user->motto,
+            'grade_id' => $user->grade_id,
+            'grade' => [
+                'id' => $user->grade->id,
+                'name' => $user->grade->name,
+            ],
+            'gender' => $user->gender ? true : false,
+        ];
+        return response($response);
     }
 
     public function login(Request $request) {
@@ -83,7 +100,6 @@ class AuthController extends Controller
             ],
         ]);
         $user = User::where('username', $request->input('username'))->first();
-            dd($user);
         if (!$user) {
             abort(403);
         } elseif (!app('hash')->check($request->input('password'), $user->password)) {
@@ -100,7 +116,6 @@ class AuthController extends Controller
             $user->tokens()->save($apiToken);
             return response([
                 'token' => $apiToken->token,
-                'user'  => $user,
             ]);
         }
     }
@@ -122,16 +137,7 @@ class AuthController extends Controller
         $user = new User();
         $user->username = $request->input('username');
         $user->password = $request->input('password');
-        //$user->role_id = $request->input('role_id');
         $user->email = $request->input('email');
-        //$user->school = $request->input('school');
-        //$user->department_id = $request->input('department_id');
-        //$user->nickname = $request->input('nickname');
-        //$user->realname = $request->input('realname');
-        //$user->motto = $request->input('motto');
-        //$user->grade_id = $request->input('grade_id');
-        //$user->gender = $request->input('gender');
         $user->save();
-        return $user;
     }
 }
