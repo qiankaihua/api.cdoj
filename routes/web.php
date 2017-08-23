@@ -14,3 +14,13 @@
 $app->get('/', function () use ($app) {
     return $app->version();
 });
+
+
+$app->group([
+    'prefix' => 'auth',
+    'namespace' => 'Auth',
+],function () use ($app) {
+   $app->get('','AuthController@get');
+   $app->post('login','AuthController@login');
+   $app->post('register','AuthController@register');
+});
