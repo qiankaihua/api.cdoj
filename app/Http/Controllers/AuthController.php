@@ -22,6 +22,39 @@ class AuthController extends Controller
         parent::__construct();
     }
 
+    public function test() {
+        $user = User::where('id',3)->first();
+        $ans = [
+            'id' => $user->id,
+            'created_at' => $user->created_at->timestamp,
+            'updated_at' => $user->updated_at->timestamp,
+            'role_id' => $user->role_id,
+            'role' => [
+                'id' => $user->role->id,
+                'name' => $user->role->name,
+                ],
+            'email' => $user->email,
+            'school' => $user->school,
+            'department_id' => $user->department_id,
+            'department' => [
+                'id' => $user->department->department_id,
+                'name' => $user->department->name,
+            ],
+            'nickname' => $user->nickname,
+            'realname' => $user->realname,
+            'motto' => $user->motto,
+            'grade_id' => $user->grade_id,
+            'grade' => [
+                'id' => $user->grade->id,
+                'name' => $user->grade->name,
+            ],
+            'gender' => $user->gender,
+        ];
+        return response([
+            'ans' =>$ans,
+        ]);
+    }
+
     public function get(Request $request) {
 
     }
@@ -48,6 +81,7 @@ class AuthController extends Controller
             $user->tokens()->save($apiToken);
             return response([
                 'token' => $apiToken->token,
+                'user'  => $user,
             ]);
         }
     }

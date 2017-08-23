@@ -19,6 +19,7 @@ $app->get('/', function () use ($app) {
 $app->group([
     'prefix' => 'auth',
 ],function () use ($app) {
+    $app->get('test','AuthController@test');
    $app->get('','AuthController@get');
    $app->post('login','AuthController@login');
    $app->post('register','AuthController@register');
