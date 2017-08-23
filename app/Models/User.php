@@ -30,7 +30,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         $this->attributes['password'] = app('hash')->make($pwd);
     }
     public function getIsAdminAttribute() {
-        return $this->id === 1;
+        return $this->role_id === 1;
     }
 
 

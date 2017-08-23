@@ -88,16 +88,8 @@ class AuthController extends Controller
 
     public function login(Request $request) {
         $this->validate($request, [
-            'username' => [
-                'required',
-                'string',
-                'regex:/^[A-Za-z][A-Za-z0-9_]{4,19}$/',
-            ],
-            'password' => [
-                'required',
-                'string',
-                'regex:/^[A-Za-z0-9]{40}$/',
-            ],
+            'username' => 'required|string|regex:/^[A-Za-z][A-Za-z0-9_]{4,19}$/',
+            'password' => 'required|string|regex:/^[A-Za-z0-9]{40}$/',
         ]);
         $user = User::where('username', $request->input('username'))->first();
         if (!$user) {
@@ -122,16 +114,8 @@ class AuthController extends Controller
 
     public function register(Request $request) {
         $this->validate($request, [
-            'username' => [
-                'required',
-                'string',
-                'regex:/^[A-Za-z][A-Za-z0-9_]{4,19}$/',
-            ],
-            'password' => [
-                'required',
-                'string',
-                'regex:/^[A-Za-z0-9]{40}$/',
-            ],
+            'username' => 'required|string|regex:/^[A-Za-z][A-Za-z0-9_]{4,19}$/',
+            'password' => 'required|string|regex:/^[A-Za-z0-9]{40}$/',
             'email'    => 'required|string|email|unique:user,email',
         ]);
         $user = new User();

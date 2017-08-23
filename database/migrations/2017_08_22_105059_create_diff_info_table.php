@@ -27,6 +27,6 @@ class CreateDiffInfoTable extends Migration
      */
     public function down()
     {
-        Schema::create('diff_info');
+        Schema::dropIfExists('diff_info');
     }
 }

@@ -28,6 +28,14 @@ class CreateUserTable extends Migration
             $table->boolean('gender')->default(false)->comment('0(false) for male, 1(true) for female');
             $table->timestamps();
         });
+        DB::table('user')->insert([
+            'username' => 'admin',
+            'password' => app('hash')->make('d033e22ae348aeb5660fc2140aec35850c4da997'),
+            'email' => 'admin@admin.com',
+            'role_id' => 1,
+            'created_at' => '1970-01-01 08:00:00',
+            'updated_at' => '1970-01-01 08:00:00',
+        ]);
     }
 
     /**
