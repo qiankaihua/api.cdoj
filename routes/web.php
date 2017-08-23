@@ -18,7 +18,6 @@ $app->get('/', function () use ($app) {
 
 $app->group([
     'prefix' => 'auth',
-    'namespace' => 'Auth',
 ],function () use ($app) {
    $app->get('','AuthController@get');
    $app->post('login','AuthController@login');

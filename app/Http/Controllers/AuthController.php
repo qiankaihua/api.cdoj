@@ -10,7 +10,7 @@ use App\Models\User;
 use App\Models\ApiToken;
 use Ramsey\Uuid\Uuid;
 
-class ExampleController extends Controller
+class AuthController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -31,7 +31,18 @@ class ExampleController extends Controller
     }
 
     public function register(Request $request) {
-
+        $this->validate($request, [
+            'username' => 'required|string|unique:user,username',
+            'password' => 'required|string',
+            'email'    => 'required|string|unique:user,email',
+        ]);
+        $user = new User();
+        $user->username = $request->input('username');
+        $user->password = $request->input('password');
+        $user->role_id = $request->input('role_id');
+        $user->email = $request->input('email');
+        $user->school = $request->input('school');
+        $user->department_id = $request->input('department_id');
     }
 
     //
