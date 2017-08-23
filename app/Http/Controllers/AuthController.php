@@ -23,11 +23,22 @@ class AuthController extends Controller
     }
 
     public function get(Request $request) {
+        $user = Auth::user();
 
+        if(!$user) {
+            abort(401);
+        }
+
+        return getJSON($user, [
+            'id', 'created_at' => 'created_at.timestamp', 'updated_at' => 'updated_at.timestamp',
+            'username', 'email', 'realname', 'gender', 'school',
+
+        ]);
     }
 
     public function login(Request $request) {
         $this->validate($request, [
+            'username' => array('regex:[a-zA-Z][a-zA-Z0-9_]{4,19}'),
             'username' => 'required|string',
             'password' => 'required|string',
         ]);
