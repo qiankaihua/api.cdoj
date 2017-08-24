@@ -42,13 +42,13 @@ class Problem extends Model
     }
 
     public function records() {
-        return $this.hasMany('App\Models\Record', 'problem_id', 'id');
+        return $this->hasMany('App\Models\Record', 'problem_id', 'id');
     }
     public function testdatas() {
-        return $this.hasMany('App\Models\Testdata', 'problem_id', 'id');
+        return $this->hasMany('App\Models\Testdata', 'problem_id', 'id');
     }
     public function contests() {
-        return $this.belongsToMany('App\Models\Contest', 'contest_x_problem', 'problem_id', 'contest_id')
+        return $this->belongsToMany('App\Models\Contest', 'contest_x_problem', 'problem_id', 'contest_id')
             ->withPivot(['order'])
             ->withTimestamps();;
     }

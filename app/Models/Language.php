@@ -9,6 +9,6 @@ class Language extends Model
     protected $table = 'language';
 
     public function records() {
-        return $this.hasMany('App\Models\Record', 'language_id', 'id');
+        return $this->hasMany('App\Models\Record', 'language_id', 'id');
     }
 }

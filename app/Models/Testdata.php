@@ -27,10 +27,10 @@ class Testdata extends Model
     }
 */
     public function testcases() {
-        return $this.hasMany('App\Models\Testcase', 'testcase_id', 'id');
+        return $this->hasMany('App\Models\Testcase', 'testcase_id', 'id');
     }
 
     public function problem() {
-        return $this.belongsTo('App\Models\Problem', 'problem_id', 'id');
+        return $this->belongsTo('App\Models\Problem', 'problem_id', 'id');
     }
 }

@@ -9,9 +9,9 @@ class JudgeResult extends Model
     protected $table = 'judge_result';
 
     public function records() {
-        return $this.hasMany('App\Models\Record', 'judge_result_id', 'id');
+        return $this->hasMany('App\Models\Record', 'judge_result_id', 'id');
     }
     public function testcases() {
-        return $this.hasMany('App\Models\Testcase', 'judge_result_id', 'id');
+        return $this->hasMany('App\Models\Testcase', 'judge_result_id', 'id');
     }
 }
